@@ -12,8 +12,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --text-colour: hsl(0 0 90%);
-    --background-colour: hsl(0 0 10%);
+    --text-colour: hsl(0 0 100%);
+    --background-colour: hsl(0 0 7%);
     --button-background: hsl(0 0 20%);
   }
 }
