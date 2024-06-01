@@ -1,12 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import styled from "styled-components";
 
 const CoinList = styled.ul`
   width: 100%;
   word-wrap: break-word;
   padding: 0;
+  overflow-y: auto;
+  min-height: 0;
 `;
 
 const Coin = styled.div`
@@ -14,10 +16,21 @@ const Coin = styled.div`
 `;
 
 const FlipCoinButton = styled.button`
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 20vh;
+  min-height: 20vh;
+`;
+
+const SummaryCounts = styled.section`
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+`;
+
+const CoinFlipSection = styled.section`
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  min-height: 0;
 `;
 
 interface Coin {
@@ -34,11 +47,11 @@ function coinFlip() {
 export function CoinFlipper() {
   const [coins, setCoins] = useState<Coin[]>([]);
   const [lastClickTime, setLastClickTime] = useState(new Date());
+  const coinListRef = useRef<HTMLUListElement>(null);
 
   function addCoin() {
     const clickTime = new Date();
     const timeSince = clickTime.getTime() - lastClickTime.getTime();
-    console.log(timeSince);
     const resetCoin = timeSince > 4000;
 
     const newCoinValue = coinFlip();
@@ -46,27 +59,34 @@ export function CoinFlipper() {
     newCoins.push({ value: newCoinValue, id: crypto.randomUUID() });
     setCoins(newCoins);
     setLastClickTime(clickTime);
+
+    if (coinListRef.current) {
+      const height = coinListRef.current.scrollHeight;
+      coinListRef.current.scrollBy(0, height);
+    }
   }
 
   return (
-    <>
-      <CoinList>
+    <CoinFlipSection>
+      <CoinList ref={coinListRef}>
         {coins.map((x) => (
           <Coin key={x.id}>
             <code>{x.value ? "H" : "T"}</code>
           </Coin>
         ))}
       </CoinList>
-      <div>
-        Heads: <code>{coins.filter((x) => x.value).length}</code>
-      </div>
-      <div>
-        Tails: <code>{coins.filter((x) => !x.value).length}</code>
-      </div>
-      <div>
-        Total: <code>{coins.length}</code>
-      </div>
+      <SummaryCounts>
+        <div>
+          Heads: <code>{coins.filter((x) => x.value).length}</code>
+        </div>
+        <div>
+          Tails: <code>{coins.filter((x) => !x.value).length}</code>
+        </div>
+        <div>
+          Total: <code>{coins.length}</code>
+        </div>
+      </SummaryCounts>
       <FlipCoinButton onClick={addCoin}>Flip!</FlipCoinButton>
-    </>
+    </CoinFlipSection>
   );
 }
