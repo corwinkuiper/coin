@@ -17,6 +17,10 @@ const Coin = styled.div`
 
 const FlipCoinButton = styled.button`
   min-height: 20vh;
+  font: inherit;
+  color: inherit;
+  background-color: var(--button-background);
+  border-color: hsl(0 0 50%);
 `;
 
 const SummaryCounts = styled.section`
