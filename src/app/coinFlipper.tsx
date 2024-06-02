@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 const CoinList = styled.ul`
   width: 100%;
@@ -9,10 +9,23 @@ const CoinList = styled.ul`
   padding: 0;
   overflow-y: auto;
   min-height: 0;
+  display: flex;
+  flex-wrap: wrap;
+`;
+
+const coinFlipAnimation = keyframes`
+  from {
+    transform: scaleX(1);
+  }
+
+  to {
+    transform: scaleX(-1);
+  }
 `;
 
 const Coin = styled.div`
-  display: inline;
+  animation: ${coinFlipAnimation} 0.5s alternate
+    cubic-bezier(0.45, 0.05, 0.55, 0.95) 2;
 `;
 
 const FlipCoinButton = styled.button`
