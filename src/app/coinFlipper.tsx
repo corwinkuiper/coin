@@ -15,17 +15,16 @@ const CoinList = styled.ul`
 
 const coinFlipAnimation = keyframes`
   from {
-    transform: scaleX(1);
+    transform: rotateY(0);
   }
 
   to {
-    transform: scaleX(-1);
+    transform: rotateY(180deg);
   }
 `;
 
 const Coin = styled.div`
-  animation: ${coinFlipAnimation} 0.5s alternate
-    cubic-bezier(0.45, 0.05, 0.55, 0.95) 2;
+  animation: ${coinFlipAnimation} 0.5s alternate linear 2;
 `;
 
 const FlipCoinButton = styled.button`
